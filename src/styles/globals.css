@@ -1,0 +1,110 @@
+@import url("react-loading-skeleton/dist/skeleton.css");
+
+@tailwind base;
+
+
+@tailwind components;
+
+@tailwind utilities;
+
+:root {
+  --paper: 255 255 255;
+  --paper-light: 247 248 249;
+  --base-color: 42 51 66;
+  --neutral: 87 95 107;
+  --neutral-dark: 51 63 81;
+  --neutral-light: 229 229 229;
+  --neutral-extra-light: 85 105 135;
+  --primary: 66 73 157;
+  --primary-light: 194 196 226;
+  --primary-dark: 10 23 47;
+  --category-front-end: 245 158 11;
+  --category-back-end: 42 209 104;
+  --category-database: 59 130 246;
+  --category-soft-skills: 168 85 247;
+}
+
+/* TODO - Support Themes */
+.theme-dark {
+  --paper: 000 000 000;
+  --paper-light: 247 248 249;
+  --base-color: 42 51 66;
+  --neutral: 87 95 107;
+  --neutral-dark: 51 63 81;
+  --neutral-light: 229 229 229;
+  --neutral-extra-light: 85 105 135;
+  --primary: 66 73 157;
+  --primary-light: 194 196 226;
+  --primary-dark: 10 23 47;
+  --category-front-end: 245 158 11;
+  --category-back-end: 42 209 104;
+  --category-database: 59 130 246;
+  --category-soft-skills: 168 85 247;
+}
+
+.theme-heroes {
+  --paper: 0 0 255;
+  --paper-light: 247 248 249;
+  --base-color: 42 51 66;
+  --neutral: 87 95 107;
+  --neutral-dark: 51 63 81;
+  --neutral-light: 229 229 229;
+  --neutral-extra-light: 85 105 135;
+  --primary: 66 73 157;
+  --primary-light: 194 196 226;
+  --primary-dark: 10 23 47;
+  --category-front-end: 245 158 11;
+  --category-back-end: 42 209 104;
+  --category-database: 59 130 246;
+  --category-soft-skills: 168 85 247;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  scroll-behavior: smooth;
+  @apply text-base-color font-poppins;
+}
+
+.header-shadow {
+  box-shadow: #55698738 0px 4px 8px, #55698742 0px 8px 32px;
+}
+
+.banner-main-hack {
+  background: radial-gradient(
+    circle,
+    rgb(255 255 255 / 0%) 0%,
+    rgb(247 248 249) 50%,
+    rgba(247 248 249) 100%
+  );
+}
