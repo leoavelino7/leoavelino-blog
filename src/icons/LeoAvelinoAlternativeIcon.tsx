@@ -1,8 +1,6 @@
-import type { FC, SVGProps } from "react";
+import type { SVGComponent } from "./types";
 
-type SvgProps = SVGProps<SVGSVGElement>;
-
-export const LeoAvelinoAlternativeIcon: FC<SvgProps> = (props) => (
+export const LeoAvelinoAlternativeIcon: SVGComponent = (props) => (
   <svg width="200" height="37" viewBox="0 0 200 37" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
     <path
       d="M90.03 29.4592H93.296L95.4536 24.8366H104.059L106.103 29.4592H109.324L99.9521 8.12305L90.03 29.4592V29.4592ZM96.8271 21.8837L99.8562 15.3404L102.75 21.8837H96.8271Z"

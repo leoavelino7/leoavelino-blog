@@ -4,7 +4,7 @@ import { Implementations } from "./types";
 import { Categories } from "./categories";
 import { LocalPosts } from "./Impl/local/posts";
 
-const implementations: Record<Implementations, () => Posts.Constructor> = {
+const implementations: Record<Implementations, (locale: string) => Posts.Constructor> = {
   local: LocalPosts,
 };
 
@@ -18,6 +18,7 @@ export namespace Posts {
     id: string;
     locale: string;
     title: string;
+    keywords: Array<string>;
     description: string;
     category: Categories.Category;
     thumbnailLarge: string;

@@ -4,6 +4,7 @@ import classnames from "classnames";
 import codeStyle from "react-syntax-highlighter/dist/cjs/styles/prism/atom-dark";
 
 import { slugify } from "../lib/helpers";
+import Link from "next/link";
 
 type HeadingTag = `h${2 | 3 | 4 | 5 | 6}`;
 
@@ -24,7 +25,7 @@ const Heading = (
 
   return (
     <Tag {...props} id={props.id ?? text}>
-      <a
+      <Link
         className="font-extrabold no-underline group text-gray-600 hover:text-gray-700"
         href={`#${text}`}
       >
@@ -35,7 +36,7 @@ const Heading = (
           #
         </span>
         <span ref={spanRef}>{props.children}</span>
-      </a>
+      </Link>
     </Tag>
   );
 };

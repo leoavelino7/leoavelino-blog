@@ -1,8 +1,6 @@
-import type { FC, SVGProps } from "react";
+import type { SVGComponent } from "./types";
 
-type SvgProps = SVGProps<SVGSVGElement>;
-
-export const LeoAvelinoIcon: FC<SvgProps> = (props) => (
+export const LeoAvelinoIcon: SVGComponent = (props) => (
   <svg width="196" height="32" viewBox="0 0 196 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
     <g clipPath="url(#clip0_101_14)">
       <path d="M16.5923 7.31604L8.21582 24.0211H12.0628L18.7274 10.7259L16.5923 7.31604Z" fill="#42499D" />

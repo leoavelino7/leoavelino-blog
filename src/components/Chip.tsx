@@ -8,7 +8,7 @@ export const Chip: React.FC<ChipProps> = ({
   Tag = "span",
   ...rest
 }) => (
-  <Tag className={`bg-primary text-paper font-poppins font-medium py-2 px-4 text-xs rounded-full ${className}`} {...rest}>
+  <Tag {...rest} className={`bg-primary text-paper font-poppins font-medium py-2 px-4 text-xs rounded-full ${className}`}>
     {children}
   </Tag>
 );

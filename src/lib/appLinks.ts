@@ -1,8 +1,8 @@
 export const AppLinks = {
-  home: () => `/`,
+  home: (locale: string) => `/${locale}`,
   github: "https://github.com/leoavelino7",
   githubBlog: "https://github.com/leoavelino7/leoavelino",
-  homeCategories: (categories: string) => `/#${categories}`,
-  homeCategory: (category: string) => `/#categorias?category=${category}`,
-  post: (slug: string) => `/post/${slug}`
+  homeCategories: (locale: string, categories: string) => `/${locale}/#${categories}`,
+  homeCategory: (locale: string, category: string) => `/${locale}/#categorias?category=${category}`,
+  post: (locale: string, slug: string) => `/${locale}/post/${slug}`
 } as const;

@@ -3,48 +3,47 @@ import { Posts } from "src/clients/database";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { Post as PostPage } from "../../views/post";
 
-export const getStaticPaths: GetStaticPaths = () => {
-  const paths = Posts.FromEnv().getPathsAll("post");
+export const getStaticPaths: GetStaticPaths = ({ locales }) => {
+  const paths = locales.map((locale) => Posts.FromEnv(locale).getPathsAll("post")).flat();
 
   return {
-    paths: paths,
-    fallback: false,
+    paths,
+    fallback: false
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({
-  params,
-  locale,
-  defaultLocale,
-}) => {
+export const getStaticProps: GetStaticProps = async ({ params, locale, defaultLocale }) => {
   const { slug } = params;
 
+  const _locale = locale ?? defaultLocale;
+
   const commonProps = {
-    ...(await serverSideTranslations(locale ?? defaultLocale, [
-      "common",
-      "home",
-    ])),
+    ...(await serverSideTranslations(_locale, ["common", "home"]))
   };
 
-  // TODO - Add Zod here
+  const commonReturnToNotFound = {
+    redirect: "/404",
+    props: {
+      post: {},
+      ...commonProps
+    }
+  };
+
   if (!slug || typeof slug !== "string") {
-    return {
-      props: {
-        post: {},
-        ...commonProps,
-      },
-    };
+    return commonReturnToNotFound;
   }
 
-  const post = Posts.FromEnv().getBySlug(slug);
+  const post = Posts.FromEnv(_locale).getBySlug(slug);
+
+  if (!post) return commonReturnToNotFound;
 
   return {
     props: {
       post,
       slug,
       categories: [],
-      ...commonProps,
-    },
+      ...commonProps
+    }
   };
 };
 export default PostPage;

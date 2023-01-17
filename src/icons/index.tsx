@@ -8,3 +8,4 @@ export * from "./LeoAvelinoAlternativeIcon";
 export * from "./LeoAvelinoIcon";
 export * from "./TranslateIcon";
 export * from "./TwitterIcon";
+export * from "./types";

@@ -24,14 +24,14 @@ export const ButtonLink: FC<ButtonLinkProps> = ({ to, external = false, children
 
   if (external) {
     return (
-      <a href={to} className={`${className}`} target="_blank" rel="noreferrer" {...rest}>
+      <a {...rest} href={to} className={`${className}`} target="_blank" rel="noreferrer">
         {children}
       </a>
     );
   }
 
   return (
-    <Link href={to} className={`${className}`} {...rest}>
+    <Link {...rest} href={to} className={`${className}`}>
       {children}
     </Link>
   );

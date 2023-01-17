@@ -7,36 +7,41 @@ const Post = defineDocumentType(() => ({
   fields: {
     locale: {
       type: "string",
-      required: true,
+      required: true
     },
     title: {
       type: "string",
+      required: true
+    },
+    keywords: {
+      type: "list",
       required: true,
+      of: { type: "string" }
     },
     slug: {
       type: "string",
-      required: true,
+      required: true
     },
     categorySlug: {
       type: "string",
-      required: true,
+      required: true
     },
     createdAt: {
       type: "date",
-      required: true,
+      required: true
     },
     description: {
       type: "string",
-      required: true,
+      required: true
     },
     thumbnailLarge: {
       type: "string",
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 }));
 
 export default makeSource({
   contentDirPath: "src/posts",
-  documentTypes: [Post],
+  documentTypes: [Post]
 });

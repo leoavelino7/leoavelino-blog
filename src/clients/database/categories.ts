@@ -19,5 +19,5 @@ export namespace Categories {
     getBySlug: (slug: string) => Nullable<Category>;
   };
 
-  export const FromEnv = () => implementations[Implementations.Local]();
+  export const FromEnv = implementations[Implementations.Local];
 }

@@ -1,7 +1,8 @@
 import type { FC } from "react";
 import { Fragment, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import Skeleton from "react-loading-skeleton";
 import { toast, ToastContainer } from "react-toastify";
+import { useTranslation } from "src/hooks";
 import { useSupportedNavigatorShare } from "../hooks/useSupportedNavigatorShare";
 import { CopyIcon, FacebookIcon, InstagramIcon, TwitterIcon } from "../icons";
 import { copyToClipboard } from "../lib/copyToClipboard";
@@ -31,13 +32,13 @@ const medias: Media[] = [
 
 const BLOCKED_TIME = 2000;
 
-type CopyAndShareProps = {
+export type CopyAndShareProps = {
   text: string;
   shareData: ShareData;
 };
 
 export const CopyAndShare: FC<CopyAndShareProps> = ({ text, shareData }) => {
-  const { t } = useTranslation();
+  const { t, loading } = useTranslation("common");
 
   const supportedNavigatorShare = useSupportedNavigatorShare();
   const [copyButtonIsDisabled, setCopyButtonIsDisabled] = useState(false);
@@ -78,7 +79,7 @@ export const CopyAndShare: FC<CopyAndShareProps> = ({ text, shareData }) => {
             onClick={copy}
             disabled={copyButtonIsDisabled}
           >
-            <CopyIcon className={iconCommonClassName} /> {t("copy_link")}
+            <CopyIcon className={iconCommonClassName} /> {loading ? <Skeleton width="60px" /> : t("copy_link")}
           </button>
         </li>
         {supportedNavigatorShare &&

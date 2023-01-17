@@ -1,7 +1,8 @@
 ---
 locale: pt-BR
 title: "Olá mundo"
-slug: ola-mundo
+keywords: ["primeiro post", "post"]
+slug: hello-world
 createdAt: 2022-03-11
 categorySlug: front-end
 description: "Pequena descrição"
@@ -33,6 +34,9 @@ function App() {
 const html = ReactDOMServer.renderToString(<App />);
 ```
 
+
+> ⚠️ Warning: useLayoutEffect does nothing on the server, because its effect cannot
+> be encoded into the server
 > ⚠️ Warning: useLayoutEffect does nothing on the server, because its effect cannot
 > be encoded into the server renderer’s output format. This will lead to a mismatch
 > between the initial, non-hydrated UI and the intended UI. To avoid this,

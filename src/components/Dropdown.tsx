@@ -18,7 +18,7 @@ type Option = {
   children: JSX.Element | string;
 };
 
-type DropdownProps<Item> = {
+export type DropdownProps<Item> = {
   id: string;
   label: React.ReactNode;
   list: Array<Item>;

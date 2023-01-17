@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { useSsr } from "./useSsr";
 import { useLocalStorage } from "./useLocalStorage";
 
 export type FontSizeClassName = "text-xs" | "text-sm" | "text-md" | "text-lg" | "text-xl";
@@ -10,6 +11,7 @@ export const useFontSize = (): [string, (fontSize: string) => void, FontSize[]] 
   const { t } = useTranslation("common");
   const [fontSize, setFontSize] = useLocalStorage("@fontSize", "text-md");
   const lastFontSizeRef = useRef(fontSize);
+  const { isBrowser } = useSsr();
 
   const fontSizeList: FontSize[] = [
     {
@@ -45,7 +47,7 @@ export const useFontSize = (): [string, (fontSize: string) => void, FontSize[]] 
   };
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (isBrowser) {
       const { classList } = window.document.documentElement;
       classList.remove(lastFontSizeRef.current);
       classList.add(fontSize);
