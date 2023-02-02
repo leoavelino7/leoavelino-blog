@@ -1,3 +1,4 @@
+import { CategoriesLib } from "src/lib/categories";
 import { Categories } from "../../categories";
 
 export const LocalCategories = (): Categories.Constructor => {
@@ -6,35 +7,34 @@ export const LocalCategories = (): Categories.Constructor => {
       id: "1",
       label: "Front End",
       image: "/icons/computer.svg",
-      slug: "front-end",
+      slug: CategoriesLib.Categories.FrontEnd
     },
     {
       id: "2",
       label: "Back End",
       image: "/icons/settings.svg",
-      slug: "back-end",
+      slug: CategoriesLib.Categories.BackEnd
     },
     {
       id: "3",
       label: "Soft Skills",
       image: "/icons/hand-love.svg",
-      slug: "soft-skills",
+      slug: CategoriesLib.Categories.SoftSkills
     },
     {
       id: "4",
       label: "Database",
       image: "/icons/database.svg",
-      slug: "database",
-    },
+      slug: CategoriesLib.Categories.Database
+    }
   ];
 
   const getAll = (): Categories.Category[] => categories;
 
-  const getBySlug = (slug: string) =>
-    categories.find((category) => category.slug === slug);
+  const getBySlug = (slug: string) => categories.find((category) => category.slug === slug);
 
   return {
     getAll,
-    getBySlug,
+    getBySlug
   };
 };

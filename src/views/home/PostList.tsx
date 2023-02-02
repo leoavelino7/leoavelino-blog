@@ -10,7 +10,7 @@ import { Categories } from "src/clients/database/categories";
 import { useTranslation } from "src/hooks";
 
 type CategoryItemProps = {
-  slug: string;
+  slug: CategoriesLib.Categories;
   label: string;
   selectedCategory: CategoriesLib.Categories;
   onClick: (slug: CategoriesLib.Categories) => void;
@@ -19,19 +19,19 @@ type CategoryItemProps = {
 const CategoryItem: FC<CategoryItemProps> = ({ selectedCategory, slug, label, onClick }) => {
   const categoryClassName =
     selectedCategory === slug
-      ? CategoriesLib.categoriesColor[selectedCategory as CategoriesLib.Categories] ?? CategoriesLib.categoriesColor[CategoriesLib.Categories.Default]
+      ? CategoriesLib.categoriesColor[selectedCategory] ?? CategoriesLib.categoriesColor[CategoriesLib.Categories.Default]
       : CategoriesLib.categoriesColor[CategoriesLib.Categories.Default];
 
   const className = classNames(
     "whitespace-nowrap py-2 px-4 font-bold rounded-md",
     categoryClassName,
-    CategoriesLib.categoriesEvent[slug as CategoriesLib.Categories],
+    CategoriesLib.categoriesEvent[slug],
     "focus:outline-dashed"
   );
 
   return (
     <li key={slug}>
-      <button type="button" onClick={() => onClick(slug as CategoriesLib.Categories)} className={className}>
+      <button type="button" onClick={() => onClick(slug)} className={className}>
         {label}
       </button>
     </li>
@@ -42,11 +42,11 @@ type PostListProps = {
   posts: Array<Posts.Post>;
   categories: Array<Categories.Category>;
   selectedCategory: CategoriesLib.Categories;
-  setSelectedCategory: (category: CategoriesLib.Categories) => void | React.Dispatch<React.SetStateAction<CategoriesLib.Categories>>;
+  onChangeSelectedCategory: (category: CategoriesLib.Categories) => void;
 };
 
-export const PostList: FC<PostListProps> = ({ posts, categories, selectedCategory, setSelectedCategory }) => {
-  const { t, loading, locale } = useTranslation();
+export const PostList: FC<PostListProps> = ({ posts, categories, selectedCategory, onChangeSelectedCategory }) => {
+  const { t, loading } = useTranslation();
 
   return (
     <section className="relative w-full py-28" id={loading ? "" : t("section_category_id")}>
@@ -63,7 +63,7 @@ export const PostList: FC<PostListProps> = ({ posts, categories, selectedCategor
           <li>
             <button
               type="button"
-              onClick={() => setSelectedCategory(CategoriesLib.Categories.All)}
+              onClick={() => onChangeSelectedCategory(CategoriesLib.Categories.All)}
               className={classNames(
                 "whitespace-nowrap py-2 px-4 font-bold rounded-md",
                 CategoriesLib.categoriesEvent[CategoriesLib.Categories.All],
@@ -76,7 +76,7 @@ export const PostList: FC<PostListProps> = ({ posts, categories, selectedCategor
             </button>
           </li>
           {categories.map((category) => (
-            <CategoryItem key={category.slug} {...category} selectedCategory={selectedCategory} onClick={setSelectedCategory} />
+            <CategoryItem key={category.slug} {...category} selectedCategory={selectedCategory} onClick={onChangeSelectedCategory} />
           ))}
         </ul>
       </div>

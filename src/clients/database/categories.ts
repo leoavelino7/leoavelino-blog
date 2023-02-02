@@ -1,9 +1,10 @@
 import { Nullable } from "src/lib/types";
 import { LocalCategories } from "./Impl/local/categories";
 import { Implementations } from "./types";
+import { CategoriesLib } from "../../lib/categories";
 
 const implementations: Record<Implementations, () => Categories.Constructor> = {
-  local: LocalCategories,
+  local: LocalCategories
 };
 
 export namespace Categories {
@@ -11,7 +12,7 @@ export namespace Categories {
     id: string;
     label: string;
     image: string;
-    slug: string;
+    slug: CategoriesLib.Categories;
   };
 
   export type Constructor = {
