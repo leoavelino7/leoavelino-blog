@@ -28,6 +28,8 @@ module.exports = {
         "primary-dark": withOpacityValue("--primary-dark"),
         "front-end": withOpacityValue("--category-front-end"),
         "back-end": withOpacityValue("--category-back-end"),
+        "algorithm": withOpacityValue("--category-algorithm"),
+        "setup": withOpacityValue("--category-setup"),
         "database": withOpacityValue("--category-database"),
         "soft-skills": withOpacityValue("--category-soft-skills")
       },

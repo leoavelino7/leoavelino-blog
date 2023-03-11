@@ -26,7 +26,19 @@ export const LocalCategories = (): Categories.Constructor => {
       label: "Database",
       image: "/icons/database.svg",
       slug: CategoriesLib.Categories.Database
-    }
+    },
+    {
+      id: "5",
+      label: "Algorithm",
+      image: "/icons/settings.svg",
+      slug: CategoriesLib.Categories.Algorithm
+    },
+    {
+      id: "6",
+      label: "Setup",
+      image: "/icons/settings.svg",
+      slug: CategoriesLib.Categories.Setup
+    },
   ];
 
   const getAll = (): Categories.Category[] => categories;

@@ -2,7 +2,6 @@
 
 @tailwind base;
 
-
 @tailwind components;
 
 @tailwind utilities;
@@ -20,6 +19,8 @@
   --primary-dark: 10 23 47;
   --category-front-end: 245 158 11;
   --category-back-end: 42 209 104;
+  --category-algorithm: 179 6 133;
+  --category-setup: 6 107 179;
   --category-database: 59 130 246;
   --category-soft-skills: 168 85 247;
 }
@@ -37,6 +38,8 @@
   --primary-light: 194 196 226;
   --primary-dark: 10 23 47;
   --category-front-end: 245 158 11;
+   --category-algorithm: 179 6 133;
+  --category-setup: 6 107 179;
   --category-back-end: 42 209 104;
   --category-database: 59 130 246;
   --category-soft-skills: 168 85 247;
@@ -54,6 +57,8 @@
   --primary-light: 194 196 226;
   --primary-dark: 10 23 47;
   --category-front-end: 245 158 11;
+  --category-algorithm: 179 6 133;
+  --category-setup: 6 107 179;
   --category-back-end: 42 209 104;
   --category-database: 59 130 246;
   --category-soft-skills: 168 85 247;
