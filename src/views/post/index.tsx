@@ -71,8 +71,8 @@ export const Post = withTranslation((data: PostProps) => {
         </header>
         <section>
           <header>
-            <div className="mx-auto w-full max-w-6xl">
-              <img src={data.post.thumbnailLarge} alt="" />
+            <div className="w-full max-h-[600px] overflow-hidden">
+              <img src={data.post.thumbnailLarge} alt="" className="mx-auto" />
             </div>
             <div className="px-4 mx-auto w-full max-w-4xl">
               <Divider />
