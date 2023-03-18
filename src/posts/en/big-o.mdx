@@ -1,0 +1,415 @@
+---
+locale: en
+title: "Big O Notation"
+keywords: ["algorithm", "big-o", "big-O(1)", "big-O(n)", "big-O(n^2)", "big-O(log n)", "big-O(n log n)", "big-O(2^n)", "big-O(n!)"]
+slug: big-o-notation
+createdAt: 2023-03-19T00:00:00
+categorySlug: algorithm
+description: "Describing the time complexity of an algorithm"
+thumbnailLarge: "/images/big-o/geometry_1920x1077.jpg"
+---
+
+## Introduction
+
+In our day-to-day as a developer, we constantly need to create scalable and high-performance algorithms. Defining a good implementation for our
+context will not always be an easy task.
+
+Many times, a runtime test may have been the only way used to measure your implementation. By the end of this post, I hope who can use Big O notation
+to understand the time complexity of their algorithm. And consequently become a better developer.
+
+## What is it ?
+
+Big O Notation is a mathematical notation for describing the time complexity of an algorithm in relation to performance changes in input size. It is
+used to describe the **worst case execution** of an algorithm. We can interpret the `O` being the indicative for **processing time/cost** and `n`
+being the input elements.
+
+## About the notations
+
+There are many Big O time complexity notations, but in this post we will see a little bit about O(1), O(n), O(n^2), O(log n), O(n log n), O(2 ^n) and
+O(n!).
+
+#### **O(1)** - constant time
+
+In this notation, the running time of the algorithm does not vary with the input size. Keeping it that way, always constant.
+
+For example:
+
+```ts
+const getFirstElement = <T>(list: Array<T>) => list[0];
+
+const smallList = Array.from({ length: 10 }, (_, i) => i + 1);
+console.log(getFirstElement(smallList)); // Output: 1
+
+const mediumList = Array.from({ length: 10_000 }, (_, i) => i + 1);
+console.log(getFirstElement(mediumList)); // Output: 1
+
+const largeList = Array.from({ length: 1_000_000 }, (_, i) => i + 1);
+console.log(getFirstElement(largeList)); // Output: 1
+```
+
+[Click here to open the playground](https://www.typescriptlang.org/play?#code/MYewdgzgLgBA5gUygMQJYCdoFEA2CC2CYsAvDADwAqANAHwAUOq0AXDAILroCGAnlbQCUMErRhNoAbQAMAXQDcAWABQK0JFgR83HDgAyzUhy58AdADN0IfPQDe4onCgALNgEZpMAL7UY9APq+qMKiMKgwANQwboJKyuoQIHimOCBw9IgoGNh4hMT0Wjr6hoKxMAD05TAA8gCuUAAO9e4qauDQMIQAJqi1+AYdZJw8vBZWNvZ4YE6u0dL+0ovevgFBIWLhUTFxCUkIKWkZSGiYULgERFD03b39JWWVNfVNUC2q8e2wONzoiANGwzMlmsdgc0xc7gWiyhnh8fkCYXWYUi0VibUgewO6UyJxyF3y31+CH+pXkFSqdUazWiQA)
+
+##### Explanation of the algorithm
+
+In this example, we have a function that, when receiving a list, returns its first item. Regardless of the size of the list, we are always picking the
+same position. For this reason, we classify this algorithm as O(1).
+
+#### O(n) - Linear time
+
+In this notation, the running time of the algorithm grows linearly with the size of the input.
+
+For example:
+
+```tsx
+var countIterations = 0;
+
+const searchItem = <T,>(list: Array<T>, itemSearch: T): number => {
+  const size = list.length;
+  for (let i = 0; i < size; i++) {
+    countIterations++;
+    const currentItem = list[i];
+
+    if (currentItem === itemSearch) {
+      return i;
+    }
+  }
+
+  return -1;
+};
+
+const numbers = Array.from({ length: 50 }, (_, i) => i);
+
+const indice = searchItem(numbers, 25); // Return: 25
+console.log(numbers[indice]); // Output: 25
+console.log(countIterations); // Output: 26
+```
+
+[Click here to open the playground](https://www.typescriptlang.org/play?#code/G4QwTgBAxg9grgOwC4EkkFMwiQSxggZwgF4IAGAbgFgAoW2QpCA9cKACzXQFsSIAeACoAaAHwAKADY4CSAFwQAgmCwBPIaOEQcGbgGVWYDgsEBKBQjjcARphKiIAb1oRo+WcxwAvdH2myAOkl0BABzJHZqGlcAMxhIKXQmHD5KbQFPHwptAGoc0ycXVzdEVAwsXHc8qOK3Rmg4FRCynj8ZJABtHABdKKLXHBiIcShGsGauXmJp7V0DNnYC52jaiHGkRoRtGuKAXyL9uhX1zYgAWgBGKN2+o4YPSxtMIlJlNQCYsBhucUcIYLCEQUAFYyBBdlpxAB9LQ4ArEBxw273ZIIAAmOCgvlILAWk3Ej1sYAIWgATMDTNkAPRUiAAJSSmwU5Po7hgwSCMFCBKsRIIXXRmPQ3UpEBpEAA8nAkAAHaXM4Gswjs9Cc7mwUpcCp4Qii8VS2XyiCkgBstFoQA)
+
+##### Explanation of the algorithm
+
+In this example, we have a function that, when receiving a list, searches and returns the index of the searched element. In this search, the list will
+be traversed sequentially starting from the first item in the list. For this reason, to find the index of the number 25, 26 iterations are necessary
+(remember that the first iteration is for the index 0).
+
+If we now have a list with 1000 items, and we search for the 25 again, we still have 26 iterations, because the iteration is sequential. But, if we
+need to search for the number 1000, we will have 1001 iterations. Therefore, **the longer your list, the greater the number of iterations needed to
+find the worst case scenario**, which in this algorithm would be the last item in the list. For this reason, we classify it as O(n).
+
+### O(n^2) - Quadratic time
+
+The running time of the algorithm grows in order of the square of the input size.
+
+For example:
+
+```tsx
+let countIterations = 0;
+
+const bubbleSort = <T,>(list: Array<T>) => {
+  const size = list.length;
+
+  let isSwapped = false;
+
+  for (let i = 0; i < size; i++) {
+    isSwapped = false;
+
+    for (let j = 0; j < size; j++) {
+      countIterations++;
+      if (list[j] > list[j + 1]) {
+        var temp = list[j];
+        list[j] = list[j + 1];
+        list[j + 1] = temp;
+        isSwapped = true;
+      }
+    }
+
+    if (!isSwapped) {
+      break;
+    }
+  }
+
+  return list;
+};
+
+console.log(bubbleSort([10, 9, 8, 7, 6, 5, 4, 3, 2, 1])); // Output: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+console.log({ countIterations }); // Output: 100
+```
+
+[Click here to open the playground](https://www.typescriptlang.org/play?#code/DYUwLgBAxg9grgOzASTCATgQzASxggZwgF4IAGAbgFgAoW2QyAIziadAGUZ1JSAeACoAaAHwAKYDgJgAXBACC6LAE9BIgJQkREAN60IB6PmkQCOAF4gSESdIB0oBAHMwAC2p0ahm+AhSOAO6YAA7BIAAm1gBmmMAEIB76hlHcEBK+ONaUfhB8phYJfgDURZp6Xt6G-kGhEdGx8YkVlRAp6GmgkABWWRQQPXlmln1dJWVJLd6wiChoWLjGJR6TlThRHVJgANpdALoQ2rbbPUUQAIy7480rlQBumO1oALbB1kc7uxM33u97b5s7CCnC7Lb6VX5A877UjPYKgsFVAiBEJhSIw9BwBJfFYAX2xhjxnhWazSAEJqiiIlcEUx0CBMABreGVQneQlfOlgODoBA2TYedk0BgEGCgBwwJxiFhsTjcMBiLZnMhCCAAThVAA4VQB2FUANhVAFYVQAWFUAZhVACYVRd1Oo+gB6R0QADycDAwQ9ckV1otpqN+p1mpV6vOZE+QuMopA4slOiMM1QGGweEIEBxDogzrdHq9snDZFoQA)
+
+##### Explanation of the algorithm
+
+In this example, we have a function that, when receiving a list, sorts its values in ascending order. At each iteration we check the smallest number
+and place it in the first position, the second-smallest number in the second position, and so on.
+
+As **we have nested loops**, our worst case is to receive a totally unordered list (like our example case). So result in iteration of `n * n`. For
+this reason, we classify it as O(n^2).
+
+#### O(log n) - Logarithm time
+
+> ⚠ Warning: If you don't understand about logarithm, I'll briefly explain.<br /> If you already understand, feel free to skip the "What is logarithm"
+
+##### What is logarithm?
+
+Logarithms are the inverse of exponential. It is an operation that finds the exponent of a power when its base and result are known. Think about the
+following question:
+
+What number do I use in exponentiation for 2 resulting in 16? That number would be 4. That is, `4² = 16`. That is, log in base 2 of 16 equals 4
+`log2(16) = 4`.
+
+Since logarithms are the inverse of exponentiation, we can find the number of operations using the logarithm of N. So `log2(n) = x`, where `x` is the
+number of operations performed during the execution of the algorithm.
+
+But it is worth remembering that the base will not always be 2.
+
+##### The annotation
+
+In this notation, the running time of the algorithm increases at a logarithmic rate with respect to the size of the input.
+
+For example:
+
+```tsx
+var countIterations = 0;
+
+const binarySearch = <T,>(list: Array<T>, itemSearch: T): number => {
+  let start = 0;
+  let end = list.length;
+
+  while (start <= end) {
+    countIterations++;
+    const mid = Math.floor((start + end) / 2);
+
+    if (list[mid] === itemSearch) {
+      return mid;
+    } else if (list[mid] < itemSearch) {
+      start = mid + 1;
+    } else {
+      end = mid - 1;
+    }
+  }
+
+  return -1;
+};
+
+const numbers = Array.from({ length: 50 }, (_, i) => i);
+
+const indice = binarySearch(numbers, 25); // Return: 25
+console.log(numbers[indice]); // Output: 25
+console.log(countIterations); // Output: 1
+```
+
+[Click here to open the playground](https://www.typescriptlang.org/play?#code/G4QwTgBAxg9grgOwC4EkkFMwiQSxggZwgF4IAGAbgFgAoW2QpCAIxwXAE8BldcKACxIQAPABUANAD4AFABscBJAC4IAQTBYOYyeIg4MAWx59+K0QEoVCOAeaYSkiAG9aECLPRNF4JqUqv3Twh0BAATIXlFADoPBABzJH5qOho3AHd+HA8IaW8wJmFSENDzZwC3WERUDCxcfAIAagbktwr6pgMccNIAWWx+KIAzWRgYMGlcpB8IBuCw0oB6CAAmc2TyvUGcyKQAbU7QgF0SYlJ9dCNeMAFSl1TWtzBPODAECAOW1oBfYNkCdE22wUewOx2EekMxmu-FuGzceV87y6MwgAEZPm4fug-gC7g83MUhAcIABaNEYiBfAJUlKPZ6vUno2hfdY0BiKCDWWyYIikdSaIZgGAGaROQLxRIqACsZEpumkAH1dDhSsRHCrWeymGxQjgoADSKx2GBuFcBNIuXYwARdMspWsIAslgAlekIFR2+j1GAeGIwOIWmxWgi7HV69CHB1OiAAeTgSAADvGPVKvYQfeg-QHKsg0JhsHhCFGlnHE8m0bRaEA)
+
+##### Explanation of the algorithm
+
+In this example, we have a function that, upon receiving an ordered list and a value, searches and returns the index of the searched element. Unlike
+linear search which would scan item by item from beginning to end of the list. In this algorithm, we start from the middle of the list, and at each
+iteration we reduce the search size by half, until we reach 1.
+
+That is, in the first example where we searched for the number 25 in an ordered list with numbers from 0 to 50, it took only 1 iteration to find the
+index of 25. That is because 25 is half of 50, and our algorithm starts the search by the middle.
+
+If we now have a list with 1000 items, and we search for 25 again, we will have 10 iterations to find the index of 25. This is because the algorithm
+will reduce its search scope by half at each iteration.
+
+Assuming you understood about logarithm, in this scenario our maximum number of possible operations would be **10**.
+
+> Calculation: `log2(1000) = 9.965784284662087` (Just round it up and we get 10) <br/> If you don't believe me, I made a playground calculating the
+> maximum number of possible operations. I looked for all the numbers from 0 to 999 and put a log in case any of them pass the maximum value. <br /> >
+> [Click here to open the playground](https://www.typescriptlang.org/play?#code/G4QwTgBAxg9grgOwC4EkkFMwiQSxggZwgF4IAGAbgFgAoW2QpCAIxwXAE8BldcKACxIQAPABUANAD4AFABscBJAC4IAQTBYOYyeIg4MAWx59+K0QEoVCOAeaYSkiAG9aECLPRNF4JqUqv3Twh0BAATIXlFADoPBABzJH5qOho3AHd+HA8IaW8wJmFSENDzZwC3WERUDCxcfAIAagbktwr6pgMccNIAWWx+KIAzWRgYMGlcpB8IBuCw0oB6CAAmc2TyvUGcyKQAbU7QgF0SYlJ9dCNeMAFSl1TWtzBPODAECAOW1oBfYNkCdE22wUewOx2EekMxmu-FuGzceV87y6MwgAEZPm4fug-gC7g83MUhAcIABaNEYiBfAJUlKPZ6vUno2hfdY0BiKCDWWyYIikdSaIZgGAGaROQLxRIqVFkGWU3TSAD6uhwpWIjhVrPZHRAAA80JhsHhCEI+okolB0FlpKaBiM4stpFy7GACDEQgkYWtaPR6jAPDEYHFpAAiUT8AEGXU4Aw2Tk2Z0QGBbGAABwNdUISmDukjepqhvqXpSgzG2yCOCEZF0BBwAC8AaQnTy3RKknoRBAa-WKHomrD7pVkPrakbeeRPqx2GBuFcBI74zzlUWAjgttJB9V06OII5pf2Huy-egA0HQ5kiHaIGksrJOehgPY7BBQgoU7IQBx0KFg0XMczvTQQA)
+
+```tsx
+const numbers = Array.from({ length: 1_000 }, (_, i) => i);
+
+const indice = binarySearch(numbers, 25); // Return: 25
+console.log(numbers[indice]); // Output: 25
+console.log(countIterations); // Output: 10
+
+/**
+ * Iteration 1: 1000 itens
+ * Iteration 2: 500 itens
+ * Iteration 3: 250 itens
+ * Iteration 4: 125 itens
+ * Iteration 5: 62 itens
+ * Iteration 6: 31 itens
+ * Iteration 7: 15 itens
+ * Iteration 8: 7 itens
+ * Iteration 9: 3 itens
+ * Iteration 10: 1 item
+ **/
+```
+
+That is, as we decrease the amount of `n` at each iteration, this is why we classify it as O(log n).
+
+### O(n log n) - Quasilinear time
+
+In this notation, the running time of the algorithm increases at a slightly faster than logarithmic rate with respect to the size of the input.
+
+For example:
+
+```tsx
+let countIterations = 0;
+
+const merge = <T,>(left: Array<T>, right: Array<T>): Array<T> => {
+  let list: Array<T> = [];
+
+  while (left.length && right.length) {
+    countIterations++;
+    if (left[0] < right[0]) {
+      list.push(left.shift()!);
+    } else {
+      list.push(right.shift()!);
+    }
+  }
+
+  return [...list, ...left, ...right];
+};
+
+const mergeSort = <T,>(list: Array<T>): Array<T> => {
+  const half = list.length / 2;
+
+  if (list.length < 2) {
+    countIterations++;
+    return list;
+  }
+
+  const left = list.splice(0, half);
+  return merge(mergeSort(left), mergeSort(list));
+};
+
+const numbers = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+
+const size = numbers.length;
+
+const maxIterations = Math.ceil(size * Math.log2(size));
+
+console.log({ maxIterations }); // Output: 34
+
+console.log(mergeSort(numbers)); // Output: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+console.log({ countIterations }); // Output: 29
+```
+
+[Click here to open the playground](https://www.typescriptlang.org/play?#code/DYUwLgBAxg9grgOzASTCATgQzASxggZwgF4IAGAbgFgAoW2QyAWwwHMQSIAeAFQBoAfAApQAMzAAuCAEF0WAJ68BfCOhysAFpJlzMingICUU2QqUkBEAN60IdiKEjAcBbab3nSAbQC6tW-YA7ho4oBAiIOIAdKAIrGAaEABkSarqWjEgcQmG1gH29rCIKGhYuPgEANSV1DQFBTii4WJgXmQ+3Gmare25NnX1g86uUQAOcAQaEdGTjWBChgCEhvn1AL4QIMAEHP2DQy5gYxNTat1Rs+ILy6sFa6v3dAN26OBw6AgQXlE-w2AqP0y4gBPzOWj8NEe9AqzDYIAAyjB0JBSLxBCJDiZdPojFizAYLHlntAYRANJhgE1SH9MtlEgB6CAAJn8xMazUOtPiiS4zL6t0K8CQqAw2DwhGqtX2qjeHwchwerIKDFcDkiKPlIwIo2cUBAQjIKnJlJWxNeYHenxY6HYQmt7ERyOmYEMKntCKR8z+hlNUJoKsgCDgTAARhgiN4AIyGiAAThUAA4VAB2FQANhUAFYVAAWFQAZhUTJUkZ8tWhjAgBBwAC8OKQg6Hw1yEuX-aSmJgAB4isriiMQACy2A0UT1oSE1brEAAVEORzEYKwmZPayAfW2VTBQIvWEIrBBOz3SmKKhA1oYKBB6YyAPJwMDjbQAP3zOdZW53wCXdrhjvmjZhugBAbted4Pk+UheJGRYFrmWbpimiYqPGEDRhCn4gLu+4ksUvanoQ56XmBED3o+D5SEysa0EAA)
+
+##### Explanation of the algorithm
+
+In this example, we have a sorting algorithm, which uses the technique of divide and conquer.
+
+The `merge` function takes two sorted lists and merges them into a single sorted list.
+
+The `mergeSort` function takes a list and returns a sorted list.
+
+As in the `merge` function we have a complexity of O(n) - since we go through each item in the list - and in the `mergeSort` function we have O(log
+n) - since we divide the list -. With the sum of the complexities, we arrive at O(n log n)
+
+> As we did in the section on O(log n), to calculate the maximum number of approximate operations for this algorithm, we just need to do: <br /> n =
+> Total size of items in the example <br /> n = 10 <br /> 10 \* log2(10) = ~34
+
+> ⚠ Warning: If you want to know more about the algorithm, access the link **Merge Sort In JavaScript**, in the references section of this post.
+
+### O(2^n) - Exponential time
+
+In this notation, the running time of the algorithm increases exponentially with the size of the input.
+
+For example:
+
+```tsx
+const generateSubsets = <T,>(list: T[]): T[][] => {
+  const result: T[][] = [];
+
+  const backstrack = (current: T[], index: number) => {
+    if (index === list.length) {
+      result.push(current);
+      return;
+    }
+    const nextIndex = index + 1;
+    backstrack(current, nextIndex);
+    backstrack(current.concat(list[index]), nextIndex);
+  };
+
+  backstrack([], 0);
+
+  return result;
+};
+
+const numbers = [1, 2, 3];
+
+const result = generateSubsets(numbers);
+console.log(result); // Output:  [[], [3], [2], [2, 3], [1], [1, 3], [1, 2], [1, 2, 3]]
+```
+
+[Click here to open the playground](https://www.typescriptlang.org/play?#code/MYewdgzgLgBA5gUzAgTgQyggygVwEYQJQQwC8MAPACoA0AfABQA2AltAFwxUDaAugJScevPmTowA3gFgAUDHkxQkWCgQQcTKEL6jyfANyzZCxeGgw8aYAGto6G2RgNgOFKrBaufGjBZgAJggAHpxgOAC2eKj8YpLGJgosAGZOfoFBZKTkrNAAdExIcFAAFjHScgmVquqauQAOOBDFzq7uUPyGFZUmqlCuYJ3dMAC+8ZVK5shBUACSAcGOaQsA1DAAjIPdljZ2VtYtbkhQPlOz80EdYwnbtlD2+y6HHrlKwBjMbFDcS0ECJ8FndL8K6jGRXG67GwMbwwAAMlzBXRgvX6yLUGigRhkoNkE1gYUiqBIejWPgATD4AMy8Tq4swqdGaRyIZDoTC4AhECAMAlRFAQBETEAFfIgOAMaoYjowAD0MpgAHkcFAGp4YNwYdxqT5uGTeDqKTBteq1vqTVSzdxSTA9TrrYbqbwYEA)
+
+##### Explanation of the algorithm
+
+In this example, we have a function that generates all possible combinations from a list. For each element in our list, two recursive calls are made.
+That is, as our input has 3 items, we have a total of `2³ = 8` operations. A list with 15 items, for example, would result in 32,768 operations.
+
+## O(n!) - Factorial time
+
+In this notation, the running time of the algorithm increases factorially according to the input size.
+
+For example:
+
+```tsx
+const permute = (value: string) => {
+  const result: string[] = [];
+  const usedChars: string[] = [];
+
+  const backtrack = (text: string, current: string) => {
+    if (current.length === text.length) {
+      result.push(current);
+      return;
+    }
+
+    for (let i = 0; i < text.length; i++) {
+      const item = text[i];
+      if (!usedChars.includes(item)) {
+        usedChars.push(item);
+        backtrack(text, current + item);
+        usedChars.pop();
+      }
+    }
+  };
+
+  backtrack(value, "");
+  return result;
+};
+
+const input = "abcdef";
+const chars = permute(input); // ["abcdef", "abcdfe", "abcedf", "abcefd", "abcfde", "abcfed", "abdcef", "abdcfe", "abdecf", "abdefc" ...]
+console.log(chars.length); // 720
+// 6! = 6 * 5 * 4 * 3 * 2 * 1 = 720
+```
+
+[Click here to open the playground](https://www.typescriptlang.org/play?#code/MYewdgzgLgBA5gUzAgTgQyggygVwEYQJQQwC8MAPACoA0AfABQA2AltAFwxUDaAugJScevPmTowA3gFgAUDHkxQkWCgQQcTKEL6jyfANyzZCxeGgw8aYAGto6G2RgNgOFKrBaufGjBZgAJggAHpxgOAC2eKj8YpLGJgosAGZOfoFBZKTkrNAAdExIcFAAFjHScgmVquqauQAOOBDFzq7uUPyGFZUmqlCuYJ3dMAC+8ZVK5shBUACSAcGOaQsA1DAAjIPdljZ2VtYtbkhQPlOz80EdYwnbtlD2+y6HHrlKwBjMbFDcS0ECJ8FndL8K6jGRXG67GwMbwwAAMlzBXRgvX6yLUGigRhkoNkE1gYUiqBIejWPgATD4AMy8Tq4swqdGaRyIZDoTC4AhECAMAlRFAQBETEAFfIgOAMaoYjowAD0MpgAHkcFAGp4YNwYdxqT5uGTeDqKTBteq1vqTVSzdxSTA9TrrYbqbwYEA)
+
+##### Explanation of the algorithm
+
+In this example, we have a function that generates all permutations of a text. In it, we have an iteration and recursion that for each time it is
+called, it sends as input one less character of the input text. We have 6 letters, that is, as we have the iteration O(n) and the recursion always
+passing n-1, we arrive at the notation O(n!). Resulting in `n! = 6! = 6 * 5 * 4 * 3 * 1 = 720` operations.
+
+## Conclusion
+
+We've seen some examples and because we rank an algorithm in a certain notation. For each notation, it was possible to see how problematic it becomes
+according to the size of the input. Among those mentioned, there is a classification to help you know how good it is, being:
+
+- O(n!), O(2^n) e O(n^2) - Horrible
+- O(n log n) - Bad
+- O(n) - Fair
+- O(log n) - Good
+- O(1) - Excellent
+
+See in the illustration:
+
+![Imagem indicando que O(n!), O(2^n) e O(n^2) são notações que classificam o algoritmo como horrível. O(n log n) classifica como ruim. O(n) classifica como justo. O(log n) classificado como bom. E O(1) classificado como excelente](/images/big-o/big-o-classification.png "Big O classificação")
+
+## References
+
+- [Como classificar algoritmos com Big O Notation](https://www.alura.com.br/artigos/como-classificar-algoritmos-big-o-notation)
+- [O que é Big O Notation?](https://medium.com/linkapi-solutions/o-que-%C3%A9-big-o-notation-32f171e4a045)
+- [Bubble Sort algorithm using JavaScript](https://www.geeksforgeeks.org/bubble-sort-algorithms-by-using-javascript/)
+- [O que é logaritmo](https://brasilescola.uol.com.br/o-que-e/matematica/o-que-e-logaritmo.htm)
+- [Complexidade Logarítmica O(log n)](https://dev.to/vapordev/complexidade-logaritmica-o-log-n-3n86)
+- [Merge Sort in JavaScript](https://stackabuse.com/merge-sort-in-javascript/)
