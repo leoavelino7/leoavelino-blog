@@ -9,12 +9,12 @@ export async function getStaticProps({ locale }) {
   const categories = Categories.FromEnv();
 
   const allPosts = posts.getAll();
-
+  
   const categoriesId = Array.from(new Set(allPosts.map((post) => post.category.id)));
 
   return {
     props: {
-      posts: posts.getAll(),
+      posts: allPosts,
       categories: categories.getAll().filter(category => categoriesId.includes(category.id)),
       ...(await serverSideTranslations(locale ?? "en", ["common", "home"])),
     },

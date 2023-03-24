@@ -64,6 +64,10 @@ export const Home = withTranslation((data: HomeProps) => {
     }
   }, [router.isReady, router.query.category]);
 
+  useEffect(() => {
+    setPosts(data.posts);
+  }, [data.posts])
+
   return (
     <Fragment>
       <Header />
