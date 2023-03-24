@@ -1,0 +1,563 @@
+---
+locale: pt-BR
+title: "NPM - Peer dependencies"
+keywords: ["package.json", "dependencies", "devDependencies", "peerDependencies", "peerDependenciesMeta", "optionalDependencies"]
+slug: npm-peer-dependencies
+createdAt: 2023-03-19T00:00:00
+categorySlug: setup
+description: "Finalmente entendendo as peerDependencies"
+thumbnailLarge: "/images/npm-dependencies/technology_1920x1077.jpg"
+---
+
+## Introdução
+
+Por muitas vezes olhando o **package.json** me questionei sobre qual era a diferença entre **dependencies**, **devDependencies**,
+**peerDependencies**, **peerDependenciesMeta** e **optionalDependencies**.
+
+O objetivo deste post é te ajudar a entender para que servem as **peerDependencies**.
+
+Caso se interesse também em entender **optionalDependencies**, basta acessar [NPM - Optional dependencies](/pt-BR/post/npm-optional-dependencies).
+
+## Um resumo sobre o package.json
+
+O arquivo **package.json** é um manifesto para projetos Node.js. Nele contém informações sobre o projeto (nome, versão, autores, dependências,
+licença, scripts, entre outras informações). Para criá-lo em um projeto, basta executar `npm init`.
+
+Neste arquivo temos algumas definições que estão relacionadas a dependências do projeto. Um resumo sobre cada uma delas:
+
+- **dependencies:** Dependências necessárias para o projeto funcionar em ambiente de produção;
+- **devDependencies:** Dependências necessárias para o projeto funcionar em ambiente de desenvolvimento;
+- **peerDependencies:** Dependências necessárias que o usuário do projeto deve instalar para utilizar outras dependências;
+- **peerDependenciesMeta:** Informações adicionais sobre as peerDependencies;
+- **optionalDependencies:** Dependências que podem ser instaladas ou não. A falta delas não compromete no funcionamento correto do projeto.
+
+## PeerDependencies
+
+As dependências entre pares mudam um pouco como enxergamos a necessidade de ter pacotes externos em nosso código. Quando estamos desenvolvendo um
+projeto que _não será_ um "Plug and Play", não faz sentido utilizar as dependências entre pares. Digo isto, pois nosso projeto não terá outras
+responsabilidades além de compilar e rodar em produção, já que é o nosso código final.
+
+Agora quando falamos de bibliotecas que serão compartilhadas, configurar algumas dependências assim será extremamente útil. Elas darão a liberdade aos
+nossos usuários de instalarem a versão que desejam e assim poder compartilhar de uma mesma dependência instalada entre diferentes bibliotecas.
+
+Por exemplo, imagina que você está construindo 2 bibliotecas diferentes de componentes para aplicações React. A biblioteca A1 exportará o componente
+Botão. Já a biblioteca A2 exportará o componente Input. Em ambas bibliotecas será necessário instalar os pacotes `react` e `react-dom`.
+
+**Problema**
+
+Se para a biblioteca A1 as versões do React forem `16.10.0` e na A3 `16.11.0`, isso pode levar a conflitos de versão quando o usuário for utilizar
+ambas em seu projeto. Para evitar este problema, podemos definir estas versões como **peerDependencies**, assim o usuário da biblioteca poderá ter o
+controle sobre a versão do react que será utilizada.
+
+Outro ponto a se considerar, é que para utilizar alguma dessas bibliotecas o usuário já precisaria ter em seu projeto o react, então deixar este
+controle de versão com ele, faz total sentido.
+
+Para ajudar no entendimento, vamos criar 3 bibliotecas bem simples e uma aplicação de teste.
+
+> Para estes exemplos estou utilizando npm - 9.6.1 e node - 16.17.0
+
+### Criando nossas bibliotecas
+
+Nossas bibliotecas serão responsáveis por retornar a diferença de uma lista para a outra e exibir no terminal a versão que estamos utilizando dentro e
+fora da biblioteca para um mesmo pacote.
+
+1. Crie uma nova pasta e um arquivo `package.json`.
+
+   ```bash
+   # Vai criar uma pasta chamada my-lib
+   mkdir my-lib &&
+   # Vai entrar na pasta criada
+   cd my-lib &&
+   # Vai criar um arquivo chamado `package.json`
+   npm init -y
+   ```
+
+2. Altere o `package.json` para:
+
+   ```json
+   {
+     "name": "my-lib",
+     "version": "1.0.0",
+     "scripts": {
+       "pack": "npm pack"
+     },
+     "peerDependencies": {
+       "lodash": "^4.17.0"
+     }
+   }
+   ```
+
+   **npm pack** - Irá empacotar nossa biblioteca gerando um arquivo **.tgz**
+
+3. Crie um arquivo chamado `index.js`
+
+   ```js
+   const _ = require("lodash");
+
+   const difference = (logMessage, arr1, arr2) => {
+     const diff = _.difference(arr1, arr2);
+
+     console.log(logMessage, "- lodash version:", _.VERSION);
+
+     return diff;
+   };
+
+   module.exports = difference;
+   ```
+
+4. Instale as dependências e empacote a biblioteca
+
+   ```bash
+   # Abra o terminal na pasta do projeto `my-lib`
+   # E instale as dependências
+   npm install &&
+   # Vai executar nosso script `pack` que irá empacotar nossa biblioteca
+   # gerando o arquivo `my-lib-1.0.0.tgz`
+   npm run pack
+   ```
+
+5. Se tudo deu certo sua estrutura de pastas deve estar assim:
+
+   ```bash
+     # |-- my-lib/
+   # |------ index.js
+   # |------ my-lib-1.0.0.tgz
+   # |------ package-lock.json
+   # |------ package.json
+   ```
+
+   ##### Pausa para explicação
+
+   - Como no passo 2 colocamos o **lodash** como **peerDependencies**, observe que ao instalar as dependências (passo 4) **não criou um
+     node_modules**. Isso, pois o ato de definir a dependência assim, faz com que quem a use seja obrigado a instalá-la.
+   - Como colocamos **^4.17.0**, significa que a versão mínima do **lodash** necessária para **my-lib** funcionar como esperamos é a versão
+     **4.17.0**.
+
+6. Criar **my-lib-2**
+
+   Vamos duplicar o projeto **my-lib**.
+
+   > Se preferir pode usar o famoso `CTRL + C` `CTRL + V`
+
+   ```bash
+     # Abra um novo terminal
+   # Cria pasta my-lib-2
+   mkdir my-lib-2 &&
+   # Para copiar `my-lib/index.js` e `my-lib/package.json` para `my-lib-2`
+   cp my-lib/index.js my-lib-2/index.js &&
+   cp my-lib/package.json my-lib-2/package.json &&
+   # Vai entrar na pasta criada
+   cd my-lib-2
+   ```
+
+7. Altere o `package.json` para:
+   ```json
+   {
+     "name": "my-lib-2",
+     "version": "1.0.0",
+     "scripts": {
+       "pack": "npm pack"
+     },
+     "dependencies": {
+       "lodash": "^4.17.0"
+     }
+   }
+   ```
+8. Instale as dependências e empacote a biblioteca
+
+   ```bash
+   # Abra o terminal na pasta do projeto `my-lib-2`
+   # E instale as dependências
+   npm install &&
+   # Vai executar nosso script `pack` que irá empacotar nossa biblioteca
+   # gerando o arquivo `my-lib-2-1.0.0.tgz`
+   npm run pack
+   ```
+
+9. Se tudo deu certo sua estrutura de pastas deve estar assim:
+
+   ```bash
+     # |-- my-lib/
+   # |------ index.js
+   # |------ my-lib-1.0.0.tgz
+   # |------ package-lock.json
+   # |------ package.json
+
+   # |-- my-lib-2/
+   # |------ node_modules/
+   # |------------ lodash/
+   # |------ index.js
+   # |------ my-lib-2-1.0.0.tgz
+   # |------ package-lock.json
+   # |------ package.json
+   ```
+
+   ##### Pausa para explicação
+
+   - Como na nossa **my-lib-2** definimos o **lodash** como **dependencies**, não é necessário que o usuário instale o **lodash**. Como nossa
+     biblioteca fará isso automaticamente, este foi o motivo pelo qual temos a pasta **node_modules**.
+   - Como colocamos **^4.17.0**, significa que a versão mínima do **lodash** necessária para **my-lib-2** funcionar como esperamos é a versão
+     **4.17.0**.
+
+10. Criar **my-lib-3**
+
+    Vamos duplicar o projeto **my-lib**.
+
+    > Se preferir pode usar o famoso `CTRL + C` `CTRL + V`
+
+    ```bash
+      # Abra um novo terminal
+    # Cria pasta my-lib-3
+    mkdir my-lib-3 &&
+    #Para copiar `my-lib/index.js` e `my-lib/package.json` para `my-lib-3`
+    cp my-lib/index.js my-lib-3/index.js &&
+    cp my-lib/package.json my-lib-3/package.json &&
+    # Vai entrar na pasta criada
+    cd my-lib-3
+    ```
+
+11. Altere o `package.json` para:
+    ```json
+    {
+      "name": "my-lib-3",
+      "version": "1.0.0",
+      "scripts": {
+        "pack": "npm pack"
+      },
+      "dependencies": {
+        "lodash": "4.17.0"
+      }
+    }
+    ```
+12. Instale as dependências e empacote a biblioteca
+
+    ```bash
+    # Abra o terminal na pasta do projeto `my-lib-3`
+    # E instale as dependências
+    npm install &&
+    # Vai executar nosso script `pack` que irá empacotar nossa biblioteca
+    # gerando o arquivo `my-lib-3-1.0.0.tgz`
+    npm run pack
+    ```
+
+13. Se tudo deu certo sua estrutura de pastas deve estar assim:
+
+    ```bash
+      # |-- my-lib/
+    # |------ index.js
+    # |------ my-lib-1.0.0.tgz
+    # |------ package-lock.json
+    # |------ package.json
+
+    # |-- my-lib-2/
+    # |------ node_modules/
+    # |------------ lodash/
+    # |------ index.js
+    # |------ my-lib-2-1.0.0.tgz
+    # |------ package-lock.json
+    # |------ package.json
+
+    # |-- my-lib-3/
+    # |------ node_modules/
+    # |------------ lodash/
+    # |------ index.js
+    # |------ my-lib-3-1.0.0.tgz
+    # |------ package-lock.json
+    # |------ package.json
+
+    ```
+
+    ##### Pausa para explicação
+
+    - Como na nossa **my-lib-3** definimos o **lodash** como **dependencies**, não é necessário que o usuário instale o **lodash**. Como nossa
+      biblioteca fará isso automáticamente, este foi o motivo pelo qual temos a pasta **node_modules**.
+    - Como colocamos **4.17.0** e não **^4.17.0**, significa que a versão do **lodash** necessária para **my-lib-3** funcionar é a versão **4.17.0**.
+      <br />
+
+    > Provavelmente você deve estar pensando que a única diferença entre **my-lib**, **my-lib-2** e **my-lib-3** É o fato de obrigar ou não o usuário
+    > a instalar uma biblioteca a mais ao utilizá-las. Se este é seu pensamento, fique calmo e vamos para o grande final.
+
+14. Criando aplicação para testar nossa biblioteca
+
+    ```bash
+    # Abra um novo terminal
+    # Vai criar uma pasta chamada my-app
+    mkdir my-app &&
+    # Vai entrar na pasta criada
+    cd my-app &&
+    # Vai criar um arquivo chamado `package.json`
+    npm init -y
+    ```
+
+15. Altere o `package.json` para:
+
+    ```json
+    {
+      "name": "my-app",
+      "version": "1.0.0",
+      "scripts": {
+        "test": "node index.js"
+      },
+      "dependencies": {
+        "lodash": "^4.17.21",
+        "my-lib": "file:../my-lib/my-lib-1.0.0.tgz",
+        "my-lib-2": "file:../my-lib-2/my-lib-2-1.0.0.tgz",
+        "my-lib-3": "file:../my-lib-3/my-lib-3-1.0.0.tgz"
+      }
+    }
+    ```
+
+16. Crie um arquivo chamado `index.js`
+
+    ```js
+    const _ = require("lodash");
+    const myLib = require("my-lib");
+    const myLib2 = require("my-lib-2");
+    const myLib3 = require("my-lib-3");
+
+    const arr1 = [1, 2, 3, 4];
+    const arr2 = [1, 2, 4];
+
+    myLib("my-lib", arr1, arr2);
+    myLib2("my-lib-2", arr1, arr2);
+    myLib3("my-lib-3", arr1, arr2);
+
+    console.log("my-app lodash version:", _.VERSION);
+    ```
+
+17. Instale as dependências
+
+    ```bash
+    # Abra o terminal na pasta do projeto `my-app`
+    ## E instale as dependências
+    npm install
+    ```
+
+18. Se tudo deu certo sua estrutura de pastas deve estar assim:
+
+    ```bash
+      # |-- my-lib/
+    # |------ index.js
+    # |------ my-lib-1.0.0.tgz
+    # |------ package-lock.json
+    # |------ package.json
+
+    # |-- my-lib-2/
+    # |------ node_modules/
+    # |------------ lodash/
+    # |------ index.js
+    # |------ my-lib-2-1.0.0.tgz
+    # |------ package-lock.json
+    # |------ package.json
+
+    # |-- my-lib-3/
+    # |------ node_modules/
+    # |------------ lodash/
+    # |------ index.js
+    # |------ my-lib-3-1.0.0.tgz
+    # |------ package-lock.json
+    # |------ package.json
+
+    # |-- my-app/
+    # |------ node_modules/
+    # |------------ lodash/
+    # |------------ my-lib/
+    # |------------ my-lib-2/
+    # |------------ my-lib-3/
+    # |------------ package-lock.json
+    # |------ index.js
+    # |------ package-lock.json
+    # |------ package.json
+    ```
+
+19. Por fim, execute **npm test** O resultado no terminal será:
+
+    ```bash
+        > my-app@1.0.0 test
+    > node index.js
+
+    my-lib - lodash version: 4.17.21
+    my-lib-2 - lodash version: 4.17.21
+    my-lib-3 - lodash version: 4.17.0
+    my-app lodash version: 4.17.21
+    ```
+
+### Explicação
+
+Em todas nossas bibliotecas, colocamos no **index.js** um **console.log** para exibir a versão do lodash que estava sendo executada.
+
+O nosso log da biblioteca **my-lib** indica a versão 4.17.21 do lodash. Isso porque nela, o lodash está como peerDependencies e com regra de versão
+mínima. Logo somos obrigados a ter **lodash** instalado em nosso **my-app**.
+
+> Leia novamente a **Pausa para explicação** no passo 5.
+
+O nosso log da biblioteca **my-lib-2** indica a versão 4.17.21 do lodash. Isso porque nela, o lodash está como dependencies com versão mínima 4.17.0.
+Como instalamos uma versão superior a 4.17.0 no **my-app** e ela é está dentro das regras do **my-lib-2**, ela é usada para ambos.
+
+> Leia novamente a **Pausa para explicação** no passo 9.
+
+O nosso log da biblioteca **my-lib-3** indica a versão 4.17.0 do lodash. Isso porque nela, o lodash está como dependencies com versão fixa em 4.17.0.
+Como instalamos uma versão diferente no **my-app**, ele não pode reaproveitar, logo são instaladas duas versões diferentes do lodash. Uma para a
+**my-lib-3** e outra para **my-app**.
+
+> Leia novamente a **Pausa para explicação** no passo 13.
+
+E nosso último log indica qual a versão do lodash que foi instalada em **my-app**.
+
+### Desinstalando e gerando erro
+
+Entendemos que por conta da **my-lib** somos obrigados a ter o lodash instalado em **my-app**, vamos então desinstalá-lo e ver o que acontece.
+
+1. Desinstalar lodash do **my-app**
+
+   ```bash
+     # Abra o terminal em my-app
+     npm uninstall lodash
+   ```
+
+2. Executando teste
+
+   ```bash
+   npm test
+   ```
+
+3. Ué, por que não deu erro ?
+
+   Como as dependências **my-lib-2** e **my-lib-3** possuem lodash como **dependencie**. Ao instalar elas em nosso projeto, o lodash também é
+   instalado. Logo **my-lib** pode acessá-lo.
+
+4. Desinstalando **my-lib-2** e **my-lib-3**
+
+   Vamos fazer duas alterações, uma no `index.js`:
+
+   ```js
+   const _ = require("lodash");
+   const mylib = require("my-lib");
+   // const mylib2 = require("my-lib-2");
+   // const mylib3 = require("my-lib-3");
+
+   const arr1 = [1, 2, 3, 4];
+   const arr2 = [1, 2, 4];
+
+   mylib("my-lib", arr1, arr2);
+   // mylib2("my-lib-2", arr1, arr2);
+   // mylib3("my-lib-3", arr1, arr2);
+
+   console.log("my-app lodash version:", _.VERSION);
+   ```
+
+   E no `package.json`:
+
+   ```json
+   {
+     "name": "my-app",
+     "version": "1.0.0",
+     "scripts": {
+       "test": "node index.js"
+     },
+     "dependencies": {
+       "my-lib": "file:../my-lib/my-lib-1.0.0.tgz"
+     }
+   }
+   ```
+
+   Agora vamos instalar as dependências novamente e executar nosso teste.
+
+   ```bash
+   npm install && npm test
+   ```
+
+   💣 BOOOM. Agora sim, deu erro:
+
+   ```bash
+   # Error: Cannot find module 'lodash'
+   # Require stack: ....
+   ```
+
+   Isso aconteceu, pois ficou apenas nossa dependência que precisa do lodash e que nela o lodash está como **peerDependencies**.
+
+5. E se instalarmos uma versão abaixo da definida em peerDependencies ?
+
+   Se você lembra, definimos uma versão mínima necessária para garantir o funcionamento do lodash em nossa biblioteca **my-lib**. O que será que
+   acontecerá se instalarmos uma versão anterior a mínima definida ? 🤔
+
+   ```bash
+    npm install lodash@3 && npm test
+   ```
+
+   😯 Uooou! Nosso código executou com sucesso.
+
+   > Então devemos sempre ter atenção com os pacotes que utilizamos e boas coberturas de testes para evitar uma troca incorreta de versão, não
+   > percebendo o grande problema que isso pode causar.
+
+   Agora vamos manter está versão do lodash e voltar com nossas outras bibliotecas e ver o que acontecerá.
+
+6. Voltando com **my-lib-2** e **my-lib-3**
+
+Vamos fazer duas alterações, uma no `index.js`:
+
+```js
+const _ = require("lodash");
+const mylib = require("my-lib");
+const mylib2 = require("my-lib-2");
+const mylib3 = require("my-lib-3");
+
+const arr1 = [1, 2, 3, 4];
+const arr2 = [1, 2, 4];
+
+mylib("my-lib", arr1, arr2);
+mylib2("my-lib-2", arr1, arr2);
+mylib3("my-lib-3", arr1, arr2);
+
+console.log("my-app lodash version:", _.VERSION);
+```
+
+E no `package.json`:
+
+```json
+{
+  "name": "my-app",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "dependencies": {
+    "lodash": "^3.10.1",
+    "my-lib": "file:../my-lib/my-lib-1.0.0.tgz",
+    "my-lib-2": "file:../my-lib-2/my-lib-2-1.0.0.tgz",
+    "my-lib-3": "file:../my-lib-3/my-lib-3-1.0.0.tgz"
+  }
+}
+```
+
+Agora vamos instalar as dependências novamente e executar nosso teste.
+
+```bash
+npm install && npm test
+```
+
+🤯 Nossa saída:
+
+```bash
+     > my-app@1.0.0 test
+ > node index.js
+
+ my-lib - lodash version: 3.10.1
+ my-lib-2 - lodash version: 4.17.21
+ my-lib-3 - lodash version: 4.17.0
+ my-app lodash version: 3.10.1
+```
+
+Esperava, por essa? 🤣🤣
+
+- Como **my-lib** está com **lodash** como **peerDependencies**, ela considerou a versão que instalamos em **my-app**.
+- Como **my-lib-2** está com **lodash** como **dependencies**, ela não utilizou a versão que temos em **my-app** e garantiu instalando o lodash na
+  versão que ela precisa.
+- Como **my-lib-3** está com **lodash** com uma versão fixa em **dependencies**, ela não utilizou a versão que temos em **my-app** e garantiu
+  instalando o lodash na versão que ela precisa.
+
+Bom, espero ter te ajudado de alguma forma.
+
+## Referências
+
+- [package.json](https://docs.npmjs.com/cli/v7/configuring-npm/package-json);
