@@ -35,9 +35,9 @@ export const LocalCategories = (): Categories.Constructor => {
     },
     {
       id: "6",
-      label: "Setup",
+      label: "Packages",
       image: "/icons/settings.svg",
-      slug: CategoriesLib.Categories.Setup
+      slug: CategoriesLib.Categories.Packages
     },
   ];
 
