@@ -29,7 +29,7 @@ module.exports = {
         "front-end": withOpacityValue("--category-front-end"),
         "back-end": withOpacityValue("--category-back-end"),
         "algorithm": withOpacityValue("--category-algorithm"),
-        "setup": withOpacityValue("--category-setup"),
+        "packages": withOpacityValue("--category-packages"),
         "database": withOpacityValue("--category-database"),
         "soft-skills": withOpacityValue("--category-soft-skills")
       },
