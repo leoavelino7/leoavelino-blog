@@ -1,5 +1,11 @@
 {
+ "theme_color": "#ffffff",
+ "background_color": "#42499d",
+ "display": "standalone",
+ "scope": "/",
+ "start_url": "https://leoavelino-blog-git-feat-pwa-leoavelino7.vercel.app/",
  "name": "Léo Avelino",
+ "description": "Léo Avelino - Blog",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",
@@ -32,10 +38,24 @@
    "density": "3.0"
   },
   {
+   "src": "\/apple-icon-152x152.png",
+   "sizes": "152x152",
+   "type": "image\/png",
+   "density": "4.0"
+  },
+  {
    "src": "\/android-icon-192x192.png",
    "sizes": "192x192",
    "type": "image\/png",
-   "density": "4.0"
+   "density": "4.0",
+   "purpose": "any maskable"
+  },
+  {
+   "src": "\/android-icon-512x512.png",
+   "sizes": "512x512",
+   "type": "image\/png",
+   "density": "4.0",
+   "purpose": "any maskable"
   }
  ]
 }
