@@ -14,7 +14,7 @@ class MyDocument extends Document<DocumentProps> {
           <meta charSet="utf-8" />
           <meta name="color-scheme" content="light" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet"></link>
           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/react-toastify@9.0.7/dist/ReactToastify.min.css"></link>
           <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png" />
