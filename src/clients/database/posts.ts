@@ -5,7 +5,7 @@ import { Categories } from "./categories";
 import { LocalPosts } from "./Impl/local/posts";
 
 const implementations: Record<Implementations, (locale: string) => Posts.Constructor> = {
-  local: LocalPosts,
+  local: LocalPosts
 };
 
 export namespace Posts {

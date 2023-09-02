@@ -38,7 +38,7 @@ export const LocalCategories = (): Categories.Constructor => {
       label: "Packages",
       image: "/icons/settings.svg",
       slug: CategoriesLib.Categories.Packages
-    },
+    }
   ];
 
   const getAll = (): Categories.Category[] => categories;

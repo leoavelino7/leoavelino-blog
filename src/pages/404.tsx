@@ -9,5 +9,5 @@ export default function NotFound() {
       </Head>
       <h1>Not found :/</h1>
     </Fragment>
-  )
+  );
 }
