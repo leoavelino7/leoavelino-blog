@@ -17,7 +17,7 @@ export const PostResume: FC<PostResumeProps> = ({ post }) => {
 
   return (
     <article className="flex flex-col rounded-md pb-2">
-      <img src={post.thumbnailLarge} alt="" />
+      <img src={post.thumbnailLarge} alt="" className="aspect-video" />
       <div className="px-1">
         <Chip
           className={`${

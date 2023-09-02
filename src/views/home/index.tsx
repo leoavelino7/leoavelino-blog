@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import { Categories } from "src/clients/database/categories";
 import { Posts } from "src/clients/database/posts";
-import { withTranslation } from "src/hooks";
+import { useTranslation, withTranslation } from "src/hooks";
 import { CategoriesLib } from "src/lib/categories";
 import { Nullable } from "src/lib/types";
 
@@ -11,6 +11,7 @@ import { BannerMain } from "./BannerMain";
 import { Feedbacks } from "./Feedbacks";
 import { Libs } from "./Libs";
 import { PostList } from "./PostList";
+import Head from "next/head";
 
 type HomeProps = {
   categories: Categories.Category[];
@@ -21,6 +22,7 @@ const scope = "home";
 
 export const Home = withTranslation((data: HomeProps) => {
   const router = useRouter();
+  const { t, loading } = useTranslation("home");
 
   const [posts, setPosts] = useState(data.posts);
   const [selectedCategory, setSelectedCategory] = useState<Nullable<CategoriesLib.Categories>>(null);
@@ -66,10 +68,13 @@ export const Home = withTranslation((data: HomeProps) => {
 
   useEffect(() => {
     setPosts(data.posts);
-  }, [data.posts])
+  }, [data.posts]);
 
   return (
     <Fragment>
+      <Head>
+        <title>{loading ? "Léo Avelino" : t("page_title")}</title>
+      </Head>
       <Header />
       <main>
         <BannerMain />

@@ -43,6 +43,6 @@ export const LocalPosts: (locale: string) => Posts.Constructor = (locale) => {
   return {
     getAll,
     getBySlug,
-    getPathsAll,
+    getPathsAll
   };
 };

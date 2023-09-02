@@ -1,3 +1,3 @@
 export enum Implementations {
-  Local = "local",
+  Local = "local"
 }

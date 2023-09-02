@@ -35,7 +35,9 @@ export const Post = withTranslation((data: PostProps) => {
   return (
     <Fragment>
       <Head>
-        <title>{data.post.title}</title>
+        <title>
+          <Fragment>Léo Avelino - Post - {loading ? "" : data.post.title}</Fragment>
+        </title>
         <meta name="description" content={data.post.description} />
         <meta name="keywords" content={data.post.keywords.join(",")} />
       </Head>
@@ -56,7 +58,9 @@ export const Post = withTranslation((data: PostProps) => {
               })
             )}
           </p>
-          <h1 className="font-poppins text-neutral-dark font-bold text-4xl md:text-5xl mt-3 text-center">{data.post.title}</h1>
+          <h1 className="font-poppins text-neutral-dark font-bold text-4xl md:text-5xl mt-3 text-center max-w-7xl !leading-tight">
+            {data.post.title}
+          </h1>
           <h2 className="font-poppins text-neutral font-medium text-lg md:text-xl text-center mt-4 mb-6 max-w-7xl">{data.post.description}</h2>
           <h3>
             <Chip
