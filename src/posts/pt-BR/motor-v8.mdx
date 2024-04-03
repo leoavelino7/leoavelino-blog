@@ -1,0 +1,65 @@
+---
+locale: pt-BR
+title: "Motor v8"
+keywords: []
+slug: v8
+createdAt: 2024-04-03T00:00:00
+categorySlug: software-engineering
+description: "Do JavaScript ao lançamento do v8"
+thumbnailLarge: "/images/.jpg"
+---
+
+# Motor v8
+
+## Do JavaScript ao lançamento do v8
+
+Em 1995, enquanto trabalhava na Netscape Communications Corporation, [Brendan Eich](https://pt.wikipedia.org/wiki/Brendan_Eich) criou um script para o navegador Netscape Navigator. Esse script foi nomeado de Mocha e posteriormente renomeado para LiveScript, antes de finalmente ser chamado de JavaScript.
+
+Após esse surgimento, a equipe do Mozilla Foundation criou o [Spider Monkey](https://spidermonkey.dev/) para ser o motor de JavaScript do seu navegador Firefox. 
+
+Enquanto isso a Microsoft também queria ter seu navegador, logo criou seu motor JavaScript, chamado JScript, em 1996, utilizado no Internet Explorer.
+
+Os anos se passaram e surgiu em 2003, o JavaScript Core, desenvolvido pela Apple como parte do projeto WebKit, o motor de layout usado no navegador Safari.
+
+Por fim, chegamos então em 2008, quando para ser usado no Google Chrome, a Google lançou o V8, como seu mecanismo JavaScript de alto desempenho. Lançamento este que fez sucesso por sua velocidade e eficiência.
+
+## **Desempenho e Otimização**
+
+O V8 é o mecanismo JavaScript e WebAssembly, desenvolvido em C++. É conhecido por sua capacidade de otimizar o código JavaScript em tempo de execução. Ele utiliza várias técnicas de otimização, como compilação JIT (Just-In-Time) e análise de perfil, para melhorar o desempenho do código. Isso significa que o V8 pode identificar trechos de código que são executados com frequência e otimizá-los para execução mais rápida.
+
+Além disso, o V8 introduziu o conceito de "ignição" (Ignition) e "TurboFan" em sua arquitetura. O Ignition é responsável pela interpretação rápida do código JavaScript durante as fases iniciais de execução, enquanto o TurboFan é um otimizador de código de alto desempenho que gera código de máquina altamente otimizado para as partes do código que são identificadas como candidatas à otimização.
+
+## **Uso Além dos Navegadores**
+
+Embora o V8 tenha ganhado destaque inicialmente como o motor JavaScript do navegador Chrome, ele também é amplamente utilizado fora do contexto dos navegadores. O Node.js, por exemplo, adota o V8 como seu mecanismo JavaScript principal, permitindo que os desenvolvedores usem JavaScript para criar aplicativos de servidor.
+
+Além disso, o V8 é frequentemente integrado em outras plataformas e aplicativos para fornecer suporte a JavaScript. Isso inclui frameworks de desenvolvimento de aplicativos móveis, como o React Native.
+
+## **Desenvolvimento Contínuo**
+
+O V8 é um projeto de código aberto em constante desenvolvimento. A equipe por trás continua aprimorando o mecanismo, introduzindo novas funcionalidades, melhorias de desempenho e correções de bugs regularmente. Os desenvolvedores interessados podem acompanhar o progresso do projeto e contribuir com o desenvolvimento por meio do repositório oficial do [V8 no GitHub](https://github.com/v8/v8).
+
+## Como funciona
+
+Quando um código JavaScript é executado no motor V8, ele passa por várias etapas antes de ser completamente processado e produzir o resultado desejado. Sendo essas etapas:
+
+1. **Compilação e execução:** Nesta etapa, o código JavaScript é analisado e compilado para uma representação interna chamada "bytecode" pelo interpretador do V8. Em seguida, o bytecode é executado pela máquina virtual do V8.
+2. **Envio para pilha de chamadas:** Durante a execução do código, as funções e métodos são chamados e colocados na "pilha de chamadas" (call stack). Isso permite que o V8 acompanhe a ordem das chamadas de função e retorne corretamente quando uma função termina de ser executada.
+3. **Gerenciamento de memória:** O V8 aloca e gerencia a memória necessária para armazenar variáveis, objetos e outros dados durante a execução do código. Isso inclui a alocação de espaço no heap para objetos e a liberação de memória quando os objetos não são mais necessários.
+4. **Coleta de lixo:** O V8 realiza periodicamente a coleta de lixo para identificar e liberar a memória ocupada por objetos que não são mais acessíveis pelo código. Isso ajuda a evitar vazamentos de memória e a garantir o uso eficiente dos recursos do sistema.
+5. **Fornecimento dos tipos de dados:** O V8 é uma linguagem de tipagem dinâmica, o que significa que as variáveis podem conter diferentes tipos de dados ao longo da execução do código. Durante essa etapa, o V8 verifica e interpreta os tipos de dados conforme necessário para realizar as operações apropriadas.
+6. **Loop de eventos:** Em ambientes como o navegador, o V8 também pode lidar com o loop de eventos, onde ele aguarda e responde a eventos do usuário, como cliques do mouse e pressionamentos de teclas. Durante essa etapa, o V8 executa os manipuladores de eventos registrados e atualiza a interface do usuário conforme necessário.
+
+## Conclusão
+
+Este breve resumo destacou o poder e a importância do motor V8 no mundo do desenvolvimento de software. Desde sua origem como ferramenta para o uso do JavaScript até sua ampla adoção em diversos contextos.
+
+Continuando os estudos sobre como funciona internamente este motor, será possível escrever códigos mais eficientes, gerenciando melhor a memória, coleta de lixo e demais otimizações para sua aplicação.
+
+## Referências
+
+- [JavaScript History](https://www.notion.so/Motor-v8-3fdd1ffd12ec4543a9502c34dce54398?pvs=21)
+- [Brendan Eich](https://pt.wikipedia.org/wiki/Brendan_Eich)
+- [Spider Monkey](https://spidermonkey.dev/)
+- [What is V8?](https://v8.dev/)
+- [TurboFan](https://v8.dev/docs/turbofan)

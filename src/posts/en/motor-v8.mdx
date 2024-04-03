@@ -1,0 +1,65 @@
+---
+locale: en
+title: "Motor v8"
+keywords: []
+slug: v8
+createdAt: 2024-04-03T00:00:00
+categorySlug: software-engineering
+description: "From JavaScript to the launch of V8"
+thumbnailLarge: "/images/.jpg"
+---
+
+# **V8 Engine**
+
+## **From JavaScript to the launch of V8**
+
+In 1995, while working at Netscape Communications Corporation, [Brendan Eich](https://pt.wikipedia.org/wiki/Brendan_Eich) created a script for the Netscape Navigator browser. This script was initially named Mocha and later renamed to LiveScript, before finally being called JavaScript.
+
+Following this development, the Mozilla Foundation team created [Spider Monkey](https://spidermonkey.dev/) to be the JavaScript engine for their Firefox browser.
+
+Meanwhile, Microsoft also wanted its browser, so it created its JavaScript engine, called JScript, in 1996, used in Internet Explorer.
+
+Years went by, and in 2003, JavaScript Core emerged, developed by Apple as part of the WebKit project, the layout engine used in the Safari browser.
+
+Finally, in 2008, to be used in Google Chrome, Google released V8 as its high-performance JavaScript engine. This release was successful for its speed and efficiency.
+
+## **Performance and Optimization**
+
+V8 is the JavaScript and WebAssembly engine, developed in C++. It is known for its ability to optimize JavaScript code at runtime. It uses various optimization techniques, such as Just-In-Time (JIT) compilation and profiling, to improve code performance. This means that V8 can identify code segments that are executed frequently and optimize them for faster execution.
+
+In addition, V8 introduced the concept of "ignition" and "TurboFan" in its architecture. Ignition is responsible for quickly interpreting JavaScript code during the initial execution phases, while TurboFan is a high-performance code optimizer that generates highly optimized machine code for parts of the code identified as optimization candidates.
+
+## **Usage Beyond Browsers**
+
+Although V8 initially gained prominence as the JavaScript engine for the Chrome browser, it is also widely used outside the context of browsers. Node.js, for example, adopts V8 as its main JavaScript engine, allowing developers to use JavaScript to create server applications.
+
+Furthermore, V8 is often integrated into other platforms and applications to provide JavaScript support. This includes mobile app development frameworks, such as React Native.
+
+## **Continuous Development**
+
+V8 is an open-source project in constant development. The team behind it continues to improve the engine, introducing new features, performance enhancements, and bug fixes regularly. Interested developers can track the project's progress and contribute to its development through the [official V8 repository on GitHub](https://github.com/v8/v8).
+
+## **How it Works**
+
+When JavaScript code is executed in the V8 engine, it goes through several stages before being fully processed and producing the desired result. These stages include:
+
+1. **Compilation and Execution:** In this stage, the JavaScript code is parsed and compiled into an internal representation called "bytecode" by the V8 interpreter. The bytecode is then executed by the V8 virtual machine.
+2. **Call Stack Management:** During code execution, functions and methods are called and placed on the call stack. This allows V8 to track the order of function calls and return correctly when a function finishes execution.
+3. **Memory Management:** V8 allocates and manages memory needed to store variables, objects, and other data during code execution. This includes allocating space on the heap for objects and releasing memory when objects are no longer needed.
+4. **Garbage Collection:** V8 periodically performs garbage collection to identify and release memory occupied by objects that are no longer accessible by the code. This helps prevent memory leaks and ensures efficient use of system resources.
+5. **Data Type Handling:** V8 is a dynamically typed language, meaning variables can contain different data types during code execution. During this stage, V8 checks and interprets data types as needed to perform appropriate operations.
+6. **Event Loop:** In environments like the browser, V8 also handles the event loop, where it waits for and responds to user events such as mouse clicks and keypresses. During this stage, V8 executes registered event handlers and updates the user interface as needed.
+
+## **Conclusion**
+
+This brief summary has highlighted the power and importance of the V8 engine in the world of software development. From its origins as a tool for JavaScript to its widespread adoption in various contexts, V8 has proven to be a fundamental piece of modern web infrastructure.
+
+Continuing studies on how this engine works internally will enable writing more efficient code, better managing memory, garbage collection, and other optimizations for your application.
+
+## **References**
+
+- [JavaScript History](https://www.notion.so/Motor-v8-3fdd1ffd12ec4543a9502c34dce54398?pvs=21)
+- [Brendan Eich](https://pt.wikipedia.org/wiki/Brendan_Eich)
+- [Spider Monkey](https://spidermonkey.dev/)
+- [What is V8?](https://v8.dev/)
+- [TurboFan](https://v8.dev/docs/turbofan)
