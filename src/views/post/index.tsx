@@ -34,13 +34,6 @@ export const Post = withTranslation((data: PostProps) => {
 
   return (
     <Fragment>
-      <Head>
-        <title>
-          <Fragment>Léo Avelino - Post - {loading ? "" : data.post.title}</Fragment>
-        </title>
-        <meta name="description" content={data.post.description} />
-        <meta name="keywords" content={data.post.keywords.join(",")} />
-      </Head>
 
       <Header />
       <main className="bg-paper-light">

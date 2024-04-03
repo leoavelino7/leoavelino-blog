@@ -1,12 +1,15 @@
-import Head from "next/head";
 import { Fragment } from "react";
+
+import type { Metadata } from 'next';
+ 
+export const metadata: Metadata = {
+  title: 'Home',
+  description: 'Welcome to Next.js',
+};
 
 export default function NotFound() {
   return (
     <Fragment>
-      <Head>
-        <title>Not found</title>
-      </Head>
       <h1>Not found :/</h1>
     </Fragment>
   );

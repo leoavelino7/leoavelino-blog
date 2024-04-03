@@ -3,6 +3,13 @@ import { Posts } from "src/clients/database";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { Post as PostPage } from "../../views/post";
 
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Builder.io - Visual Headless CMS',
+  description: 'Build digital experiences for any tech stack, visually.',
+}
+ 
 export const getStaticPaths: GetStaticPaths = ({ locales }) => {
   const paths = locales.map((locale) => Posts.FromEnv(locale).getPathsAll("post")).flat();
 
