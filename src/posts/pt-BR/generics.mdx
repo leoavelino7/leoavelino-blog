@@ -1,0 +1,161 @@
+---
+locale: pt-BR
+title: "Generics"
+keywords: []
+slug: generics
+createdAt: 2024-04-09T00:00:00
+categorySlug: 
+description: "Entendendo os Generics to Typescript"
+thumbnailLarge: "/images/big-o/geometry_1920x1077.jpg"
+---
+
+Os generics são recursos que nos possibilitam implementar códigos que podem funcionar em diferentes tipos de dados. Portanto, quando bem utilizado nos permite reutilizar trechos de código por todo o sistema.
+
+Vamos supor que precisamos criar uma função de ordenação de uma lista com objetos. Nossa primeira abordagem poderia ser algo assim:
+ 
+```tsx
+type User = {
+ name: string;
+ age: number;
+}
+
+const sortBy = (users: User[], property: keyof User) => {
+  return users.sort((a, b) => {
+    if (a[property] < b[property]) return -1;
+    if (a[property] > b[property]) return 1;
+    return 0;
+  });
+};
+
+const users: User[] = [
+  { name: "Jane", age: 23 },
+  { name: "Leonardo", age: 20 },
+  { name: "John", age: 21 },
+];
+
+const usersOrdered = sortBy(users, "age");
+
+console.log(usersOrdered);
+/* Output
+	[{
+	  "name": "Leonardo",
+	  "age": 20
+	}, {
+	  "name": "John",
+	  "age": 21
+	}, {
+	  "name": "Jane",
+	  "age": 23
+	}]
+*/
+```
+
+Bom, nosso código está 100% funcional, nosso primeiro parâmetro deve ser do tipo `User` e nosso segundo parâmetro indica que precisamos definir uma chave existente em `User`.
+
+Porém se for necessário ordenar uma lista com um tipo diferente de `User`, teremos problemas.
+
+Para resolver esta situação, podemos utilizar o Generics, onde lidaremos com nossa entrada, sendo um tipo **genérico** de objeto.
+
+Para indicar que nosso primeiro parâmetro precisa ser uma lista de objetos, vamos definir que receberemos o **primeiro** genérico sendo um objeto qualquer, por isso utilizamos o `T extends object`. E então, nosso parâmetro `list` deverá ser uma lista desse objeto qualquer.
+
+```tsx
+const sortBy = <T extends object>(list: T[], property: keyof T) => { /*...*/ }
+```
+
+**Exemplo de uso**
+
+```tsx
+type Player = {
+  nickname: string;
+  points: number;
+}
+
+const players: Player[] = [
+  { nickname: "leonardo_123", points: 10 },
+  { nickname: "john_", points: 12 },
+  { nickname: "jan3", points: 25 },
+];
+
+const output = sortBy<Player>(players, "points");
+```
+
+Como declaramos que `const players =` é do tipo `Player[]` . O Typescript é capaz de **inferir** o tipo da nossa lista. Então podemos simplesmente utilizar a função sem passar manualmente nosso **genérics**, ficando assim:
+
+```tsx
+type Player = {
+  nickname: string;
+  points: number;
+}
+
+const players: Player[] = [
+  { nickname: "leonardo_123", points: 10 },
+  { nickname: "john_", points: 12 },
+  { nickname: "jan3", points: 25 },
+];
+
+// Antes
+// const output = sortBy<Player>(players, "points");
+
+// Agora
+const output = sortBy(players, "points");
+```
+
+E dessa forma, podemos simplesmente utilizar essa função de ordenação para outros tipos.
+
+**Exemplo completo**:
+
+```tsx
+const sortBy = <T extends object>(list: T[], property: keyof T) => {
+  return list.sort((a, b) => {
+    if (a[property] < b[property]) return -1;
+    if (a[property] > b[property]) return 1;
+    return 0;
+  });
+};
+
+// Exemplo com uma lista de usuários
+
+type User = {
+  name: string;
+  age: number;
+}
+
+const users: User[] = [
+  { name: "Jane", age: 23 },
+  { name: "Leonardo", age: 20 },
+  { name: "John", age: 21 },
+];
+
+console.log(sortBy(users, "age"));
+
+// Exemplo com uma lista de jogadores
+
+type Player = {
+  nickname: string;
+  points: number;
+}
+
+const players: Player[] = [
+  { nickname: "leonardo_123", points: 10 },
+  { nickname: "john_", points: 12 },
+  { nickname: "jan3", points: 25 },
+];
+
+console.log(sortBy(players, "points"));
+
+// Output
+/*
+	[{
+	  "nickname": "leonardo_123",
+	  "points": 10
+	}, {
+	  "nickname": "john_",
+	  "points": 12
+	}, {
+	  "nickname": "jan3",
+	  "points": 25
+	}]
+*/
+```
+
+[Exemplo completo no playground](https://www.typescriptlang.org/play?#code/MYewdgzgLgBBICcoCECeMC8MA8AVGApgB5QFgAmEMIARgFYHBQB8AFADYCW0AXDLgG0AugBoYABwQhxBJKj4BrAqhAAzfgEpMzGAG8AUDBgICUAK4IwMLtAB08JK1YBDMTS0YdBo0c7qXApLSslCoQjgwNIFSMnJCWibmljAAtACMANyGPn4wAUGxoeE6UQUhYQmmFlaZ2UaJ1TAADFlGAL4aWW1Z+voA9H0wAKJEBAC24uwgMKBjMGZjztbcUEvkBPMQZgCHCJwgEL2hMjAAqhCymHrZYM5jBHzQe2AA5q0wzi8PMGALNLJdXqgSCwMwXBAQPjnWTCK4CbK6H53b4AIgAUs4wAQUWJPt8AEwAZhgbRECKR9z4KIAMgRwM4EOQQDiPl8+PimiSyUZEbdKTB0SAABZgFl49lpLn6IQ9YHwdgEWxTF6sBwoVCsMGyCBiFF4lEaTq9AbDUYTKYzEBzBZLGyrGDrGB0EAvZxMkyHfTHDYABXYzlQlyw3h+nGACj53yenFe73EIBjUEhPz+AP0bSB4GgEn9gYhfD9AZh4Sw8J5ofDkapCvpjJAAH00kSWfHE8m0pzSeSwGGI8iqc6RfWWwmwEm+E2peWe5X+wK6JjCSO2+yAKxSmWZyAgBVKl2qxDq1iTIsQ3WtscQA1G-qDADyZig4kf-QAVPoAJACAwfowomd9vcKLVnStx1o2zZkr+AoXkmwEwB2n6ktc0H-r2kbwSig5gMOUF-rBV4TviSFiD+f4ARhA6Ljin74aOcFrkhQj6K+fRAA)
