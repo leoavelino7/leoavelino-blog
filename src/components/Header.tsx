@@ -58,7 +58,6 @@ export const Header: FC = () => {
             //   itemActive={theme}
             //   itemClassName="text-left w-full px-4 py-2 hover:bg-primary-light"
             // />
-            
             // <Dropdown<FontSize>
             //   id="font-size-dropdown"
             //   label={loading ? <Skeleton width="60px" /> : t("header_font_size")}

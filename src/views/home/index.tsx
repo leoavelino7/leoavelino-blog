@@ -66,7 +66,7 @@ export const Home = withTranslation((data: HomeProps) => {
 
   useEffect(() => {
     setPosts(data.posts);
-  }, [data.posts])
+  }, [data.posts]);
 
   return (
     <Fragment>
